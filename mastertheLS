@@ -1,4 +1,1 @@
-.*
-!/.gitignore
-ls -d
-git ls-files | grep -v / | tr '\n' ','
+ls -mtF | sed 's/ //g'
