@@ -1,11 +1,17 @@
 package main
 
-import "fmt"
+import "github.com/01-edu/z01"
 
 func main() {
 
-	{
-		fmt.Printf("0123456789\n")
+	var i rune = 48
+	var b rune = 1
+
+	for i <= 57 {
+		z01.PrintRune(i)
+		i = i + b
 	}
+
+	z01.PrintRune(10)
 
 }
