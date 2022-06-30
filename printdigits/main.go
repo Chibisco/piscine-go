@@ -1,17 +1,9 @@
 package main
 
-import "github.com/01-edu/z01"
+import "fmt"
 
-func main() {
+func main() {  
+    var age int = 29 // variable declaration with initial value
 
-	var i rune = 48
-	var b rune = 1
-
-	for i <= 57 {
-		z01.PrintRune(i)
-		i = i + b
-	}
-
-	z01.PrintRune(10)
-
+    fmt.Println("My age is", age)
 }
