@@ -1,7 +1,5 @@
 package piscine
 
-// Ultimate divmod
-
 func UltimateDivMod(a *int, b *int) {
 	y := *a
 	*a = *a / *b
