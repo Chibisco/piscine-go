@@ -12,12 +12,12 @@ func main() {
 					z01.PrintRune(k)
 					if i < '7' {
 						z01.PrintRune(44)
+
 						z01.PrintRune(32)
 					}
 				}
 			}
 		}
-		//good
 	}
 	z01.PrintRune(10)
 }
