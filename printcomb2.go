@@ -1,8 +1,6 @@
 package piscine
 
-import (
-	"github.com/01-edu/z01"
-)
+import "github.com/01-edu/z01"
 
 func PrintComb2() {
 	for a := '0'; a <= '9'; a = a + 1 {
@@ -16,8 +14,8 @@ func PrintComb2() {
 					z01.PrintRune(c)
 					z01.PrintRune(d)
 					if a < '9' || b < '8' || c < '9' || d < '9' {
-						z01.PrintRune(',')
-						z01.PrintRune(' ')
+						z01.PrintRune(44)
+						z01.PrintRune(32)
 					}
 				}
 				d = '0'
