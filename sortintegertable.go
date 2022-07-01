@@ -11,5 +11,4 @@ func SortIntegerTable(table []int) {
 			}
 		}
 	}
-
 }
