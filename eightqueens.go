@@ -2,9 +2,11 @@ package piscine
 
 import "github.com/01-edu/z01"
 
-var ans [8]rune
-var ban [9]bool
-var ans2 [9]int
+var (
+	ans  [8]rune
+	ban  [9]bool
+	ans2 [9]int
+)
 
 func EightQueens() {
 	ok := true
