@@ -1,7 +1,6 @@
 package piscine
 
 func IsNumeric(s string) bool {
-
 	c := []rune(s)
 	cd := 0
 
