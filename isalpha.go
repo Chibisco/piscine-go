@@ -1,7 +1,6 @@
 package piscine
 
 func IsAlpha(s string) bool {
-
 	c := []rune(s)
 	cd := 0
 
