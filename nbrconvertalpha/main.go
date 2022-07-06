@@ -7,38 +7,36 @@ import (
 )
 
 func main() {
-	my_arr := os.Args[1:]
-	ln := 0
-	for i := range my_arr {
-		ln = i
-	}
-	if ln >= 1 {
-		if my_arr[0] == "--upper" {
-			//	z01.PrintRune(' ')
-			for i := 1; i <= ln; i++ {
-				num := 0
-				for _, w := range my_arr[i] {
-					num = num*10 + int(w-'0')
-				}
-				if num >= 1 && num <= 26 {
-					z01.PrintRune('A' + rune(num-1))
-				} else {
-					z01.PrintRune(' ')
-				}
-			}
+	m := 96
+	for i := 1; i < len(os.Args); i++ {
+		if os.Args[i] == "--upper" && i == 1 {
+			m -= 32
+			continue
+		}
+		if basicAtoi2(os.Args[i]) == 0 {
+			z01.PrintRune(' ')
 		} else {
-			for i := 0; i <= ln; i++ {
-				myNum := 0
-				for _, w := range my_arr[i] {
-					myNum = myNum*10 + int(w-'0')
-				}
-				if myNum >= 1 && myNum <= 26 {
-					z01.PrintRune('a' + rune(myNum-1))
-				} else {
-					z01.PrintRune(' ')
-				}
+			if basicAtoi2(os.Args[i]) <= 26 {
+				z01.PrintRune(rune(m + basicAtoi2(os.Args[i])))
+			} else {
+				z01.PrintRune(' ')
 			}
 		}
 	}
-	z01.PrintRune('\n')
+	if len(os.Args) > 1 {
+		z01.PrintRune('\n')
+	}
+}
+
+func basicAtoi2(s string) int {
+	sum := 0
+	for _, str := range s {
+		sum *= 10
+		sum += int(rune(str)) - 48
+		if rune(str) > rune('9') || rune(str) < rune('0') {
+			sum = 0
+			break
+		}
+	}
+	return sum
 }
