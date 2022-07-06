@@ -7,52 +7,123 @@ import (
 )
 
 func main() {
-	arg := os.Args[1:]
-	len := 0
-	flag := false
-	for i := range arg {
-		len = i
-	}
-	for _, val := range arg {
-		if val == "--upper" {
-			flag = true
-		}
+	//var argsStart int
+
+	if stringArrLen(os.Args) <= 1 {
+		z01.PrintRune('\n')
+		return
 	}
 
-	if flag {
-		for i := 0; i <= len; i++ {
-			z01.PrintRune(ToUpper(ConvertToLetter(arg[i])))
+	// if os.Args[1] == "--upper" {
+	// 	argsStart = 2
+	// } else {
+	// 	argsStart = 1
+	// }
+
+	//if !isDigits(os.Args[argsStart:]) {
+	//	z01.PrintRune(' ')
+	//	os.Exit(0)
+	//}
+
+	for _, s := range os.Args[1:] {
+		nm := atoi(s)
+		if nm <= 26 && nm > 0 {
+			if os.Args[1] == "--upper" {
+				z01.PrintRune(rune(nm + 96 - 32))
+			} else {
+				z01.PrintRune(rune(nm + 96))
+			}
+		} else {
+			z01.PrintRune(' ')
 		}
-		z01.PrintRune(10)
-	} else if len == 0 {
-		z01.PrintRune(10)
-	} else {
-		for i := 0; i <= len; i++ {
-			z01.PrintRune(ConvertToLetter(arg[i]))
-		}
-		z01.PrintRune(10)
 	}
+	z01.PrintRune('\n')
 }
 
-func ConvertToLetter(s string) rune {
-	numb := 0
-	for _, i := range s {
-		count := 0
-		for k := '0'; k < i; k++ {
-			count++
-		}
-		numb = numb*10 + count
+func stringArrLen(strs []string) int {
+	count := 0
+	for range strs {
+		count++
 	}
-	numb = numb + 96
-	if numb >= 123 {
-		return ' '
-	}
-	return rune(numb)
+
+	return count
 }
 
-func ToUpper(r rune) rune {
-	if r-32 < 65 {
-		return r
+func isDigits(strs []string) bool {
+	for _, str := range strs {
+		for _, r := range []rune(str) {
+			if r < '0' || r > '9' {
+				return false
+			}
+		}
 	}
-	return r - 32
+
+	return true
+}
+
+func basicJoin(strs []string) string {
+	var result string
+	for _, str := range strs {
+		result += str
+	}
+	return result
+}
+
+func strLen(str string) int {
+	i := 0
+	for range str {
+		i++
+	}
+	return i
+}
+
+func atoi(s string) int {
+	if strLen(s) == 0 {
+		return 0
+	}
+
+	s0 := s
+	if s[0] == '-' || s[0] == '+' {
+		s = s[1:]
+		if strLen(s) < 1 {
+			return 0
+		}
+	}
+
+	nm := 0
+
+	for _, ch := range s {
+		if !containsIn0to9(ch) {
+			return 0
+		}
+		nm = nm*10 + charToInt(ch)
+	}
+
+	if s0[0] == '-' {
+		nm *= -1
+	}
+	return nm
+}
+
+func charToInt(ch rune) int {
+	count := 0
+	if ch < 48 && ch > 58 {
+		return 0
+	}
+
+	for i := '1'; i <= ch; i++ {
+		count++
+	}
+
+	return count
+}
+
+func containsIn0to9(ch rune) bool {
+	for i := '0'; i <= '9'; i++ {
+		if ch == i {
+			return true
+		}
+	}
+
+	return false
 }
