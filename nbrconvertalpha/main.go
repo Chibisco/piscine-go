@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	//var argsStart int
-
+	// var argsStart int
 	if stringArrLen(os.Args) <= 1 {
 		z01.PrintRune('\n')
 		return
