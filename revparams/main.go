@@ -14,7 +14,7 @@ func main() {
 		c = i
 	}
 
-	for i := c; i >= 1; i-- {
+	for i := c; i > 0; i-- {
 		for _, w := range arg[i] {
 			z01.PrintRune(w)
 		}
