@@ -20,7 +20,7 @@ func main() {
 				for _, w := range my_arr[i] {
 					num = num*10 + int(w-'0')
 				}
-				if num >= '1' && num <= '9' {
+				if num >= 1 && num <= 26 {
 					z01.PrintRune('A' + rune(num-1))
 				} else {
 					z01.PrintRune(' ')
