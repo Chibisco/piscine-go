@@ -7,38 +7,28 @@ import (
 )
 
 func main() {
-	my_arr := os.Args[1:]
-	ln := 0
-	for i := range my_arr {
-		ln = i
+	arguments := os.Args[1:]
+	caps := false
+	for _, v := range arguments {
+		if v == "--upper" {
+			caps = true
+		}
 	}
-	if ln >= 1 {
-		if my_arr[0] == "--upper" {
-			z01.PrintRune(' ')
-			for i := 1; i <= ln; i++ {
-				num := 0
-				for _, w := range my_arr[i] {
-					num = num*10 + int(w-'0')
-				}
-				if num >= 1 && num <= 26 {
-					z01.PrintRune('A' + rune(num-1))
-				} else {
-					z01.PrintRune(' ')
-				}
+	for _, arg := range arguments {
+		numv := 0
+		for _, v := range arg {
+			numv = numv*10 + int(v-'0')
+		}
+		if numv >= 1 && numv <= 26 {
+			if caps == false {
+				z01.PrintRune(rune(numv + 96))
+			} else {
+				z01.PrintRune(rune(numv + 64))
 			}
 		} else {
-			for i := 0; i <= ln; i++ {
-				myNum := 0
-				for _, w := range my_arr[i] {
-					myNum = myNum*10 + int(w-'0')
-				}
-				if myNum >= 1 && myNum <= 26 {
-					z01.PrintRune('a' + rune(myNum-1))
-				} else {
-					z01.PrintRune(' ')
-				}
-			}
+			z01.PrintRune(' ')
 		}
 	}
 	z01.PrintRune('\n')
+
 }
