@@ -77,7 +77,6 @@ func main() {
 
 		z01.PrintRune(10)
 	}
-
 }
 
 func Order(array []rune) {
