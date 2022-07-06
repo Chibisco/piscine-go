@@ -7,12 +7,9 @@ import (
 )
 
 func main() {
-	arguments := os.Args
-	name := arguments[0]
-
-	runes := []rune(name)
-	for i := range runes {
-		z01.PrintRune(runes[i])
+	arg := os.Args
+	for _, w := range arg[0] {
+		z01.PrintRune(w)
 	}
 	z01.PrintRune('\n')
 }
