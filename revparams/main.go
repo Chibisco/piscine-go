@@ -8,17 +8,14 @@ import (
 
 func main() {
 	arg := os.Args
-	c := 0
-
+	ln := 0
 	for i := range arg {
-		c = i
+		ln = i
 	}
-
-	for i := c; i > 0; i-- {
+	for i := ln; i > 0; i-- {
 		for _, w := range arg[i] {
 			z01.PrintRune(w)
 		}
 		z01.PrintRune('\n')
 	}
-	z01.PrintRune('\n')
 }
