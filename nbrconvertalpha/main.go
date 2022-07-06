@@ -19,14 +19,14 @@ func main() {
 		for _, v := range arg {
 			numv = numv*10 + int(v-'0')
 		}
-		if numv >= 2 && numv <= 26 {
+		if numv >= 1 && numv <= 26 {
 			if caps == false {
 				z01.PrintRune(rune(numv + 96))
-			} else {
+			} else if caps == true {
 				z01.PrintRune(rune(numv + 64))
+			} else {
+				z01.PrintRune(' ')
 			}
-		} else {
-			z01.PrintRune(' ')
 		}
 	}
 	z01.PrintRune('\n')
