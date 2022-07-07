@@ -1,37 +1,69 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"strings"
+
+	"github.com/01-edu/z01"
 )
 
 func main() {
-	var a1, a2, rev []rune
-	for _, arg := range os.Args[1:] {
-		for _, k := range arg {
-			if strings.ContainsRune("aeiouAEIOU", k) {
-				a1 = append(a1, k)
+	args := os.Args[1:]
+	len := 0
+	for range args {
+		len++
+	}
+	if len > 0 {
+		vowels := "AEIOUaeiou"
+		str, vow, vow1 := "", "", ""
+		for i, j := range args {
+			str += j
+			if i != len-1 {
+				str += " "
+			}
+			for _, b := range j {
+				for _, c := range vowels {
+					if b == c {
+						vow += string(b)
+					}
+				}
 			}
 		}
-	}
-	for i := len(a1) - 1; i >= 0; i-- {
-		rev = append(rev, a1[i])
-	}
-
-	m := 0
-	for i, arg := range os.Args[1:] {
-		for _, j := range arg {
-			if strings.ContainsRune("aeiouAEIOU", j) {
-				a2 = append(a2, rev[m])
-				m++
-			} else {
-				a2 = append(a2, j)
+		var lenv int
+		for range vow {
+			lenv++
+		}
+		for i := lenv - 1; i >= 0; i-- {
+			vow1 += string(vow[i])
+		}
+		a, res := 0, ""
+		for _, j := range str {
+			vowel := false
+			for _, b := range vowels {
+				if j == b {
+					res += string(vow1[a])
+					a++
+					vowel = true
+					break
+				}
+			}
+			if !vowel {
+				res += string(j)
 			}
 		}
-		if i != len(os.Args)-1 {
-			a2 = append(a2, ' ')
+		for _, j := range res {
+			z01.PrintRune(j)
 		}
 	}
-	fmt.Println(string(a2))
+	z01.PrintRune('\n')
 }
+
+// ./rotatevowels "Hello World"
+// Hollo Werld
+// ./rotatevowels "HEllO World" "problem solved"
+// Hello Werld problom sOlvEd
+//  ./rotatevowels "str" "shh" "psst"
+// str shh psst
+// ./rotatevowels "happy thoughts" "good luck"
+// huppy thooghts guod lack
+// ./rotatevowels "al's elEphAnt is overly underweight!"
+// il's elephunt es ovirly AndErweaght!
