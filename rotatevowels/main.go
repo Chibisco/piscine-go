@@ -6,41 +6,51 @@ import (
 	"github.com/01-edu/z01"
 )
 
-func check(x rune) bool {
-	if x == 'a' || x == 'A' || x == 'e' || x == 'E' || x == 'o' || x == 'O' || x == 'u' || x == 'U' || x == 'i' || x == 'I' {
-		return true
-	}
-	return false
-}
-
 func main() {
-	arg := os.Args[1:]
-	rep := []rune{}
-	ans := ""
-	ln := 0
-	IsF := true
-	for _, c := range arg {
-		for _, j := range c {
-			if check(j) {
-				rep = append(rep, j)
-				ln++
+	arguments := os.Args
+	namePro := arguments[0]
+	count := 0
+	str := ""
+	var vowels []rune
+	var ind []int
+	for range arguments {
+		count++
+	}
+	for i := 0; i < count-1; i++ {
+		if arguments[i] != namePro {
+			str = str + arguments[i] + " "
+		}
+	}
+	str = str + arguments[count-1]
+	for i, a := range str {
+		if isVowel(a) {
+			vowels = append(vowels, a)
+			ind = append(ind, i)
+
+		}
+	}
+	n := 0
+	runes := []rune(str)
+	for range runes {
+		n++
+	}
+	m := 0
+	for range vowels {
+		m++
+	}
+	for i := 0; i < n; i++ {
+		for j := range ind {
+			if i == ind[j] {
+				runes[i] = vowels[m-j-1]
 			}
 		}
-		if IsF {
-			ans = c
-			IsF = false
-			continue
-		}
-		ans = ans + " " + c
 	}
-	cur := 0
-	for _, c := range ans {
-		if check(c) {
-			z01.PrintRune(rep[ln-cur-1])
-			cur++
-		} else {
-			z01.PrintRune(c)
-		}
+	for i := range runes {
+		z01.PrintRune(runes[i])
 	}
 	z01.PrintRune('\n')
+}
+
+func isVowel(a rune) bool {
+	return (a == 'a' || a == 'e' || a == 'u' || a == 'o' || a == 'i' || a == 'A' || a == 'E' || a == 'U' || a == 'O' || a == 'I')
 }
