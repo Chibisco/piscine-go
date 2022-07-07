@@ -6,57 +6,41 @@ import (
 	"github.com/01-edu/z01"
 )
 
-func main() {
-	argruments := os.Args[1:]
-	length := 0
-	for i := range argruments {
-		length = i + 1
+func check(x rune) bool {
+	if x == 'a' || x == 'A' || x == 'e' || x == 'E' || x == 'o' || x == 'O' || x == 'u' || x == 'U' || x == 'i' || x == 'I' {
+		return true
 	}
-
-	if length != 0 {
-		str := ""
-		first := false
-
-		for _, arg := range argruments {
-			if first {
-				str += " "
-			}
-			first = true
-			str += arg
-		}
-
-		runes := []rune(str)
-		var pos []int
-		var vow []rune
-
-		for i, r := range runes {
-			if r == 'A' || r == 'E' || r == 'I' || r == 'O' || r == 'U' || r == 'a' || r == 'e' || r == 'i' || r == 'o' || r == 'u' {
-				pos = append(pos, i)
-				vow = append(vow, runes[i])
-			}
-		}
-		swap(vow)
-
-		for i := range pos {
-			runes[pos[i]] = vow[i]
-		}
-
-		for _, r := range runes {
-			z01.PrintRune(r)
-		}
-
-	}
-	z01.PrintRune('\n')
+	return false
 }
 
-func swap(vow []rune) {
-	len := 0
-	for i := range vow {
-		len = i + 1
+func main() {
+	arg := os.Args[1:]
+	rep := []rune{}
+	ans := ""
+	ln := 0
+	IsF := true
+	for _, c := range arg {
+		for _, j := range c {
+			if check(j) {
+				rep = append(rep, j)
+				ln++
+			}
+		}
+		if IsF {
+			ans = c
+			IsF = false
+			continue
+		}
+		ans = ans + " " + c
 	}
-	for i, j := 0, len-1; i < j; i, j = i+1, j-1 {
-		temp := vow[i]
-		vow[i] = vow[j]
-		vow[j] = temp
+	cur := 0
+	for _, c := range ans {
+		if check(c) {
+			z01.PrintRune(rep[ln-cur-1])
+			cur++
+		} else {
+			z01.PrintRune(c)
+		}
 	}
+	z01.PrintRune('\n')
 }
