@@ -1,39 +1,37 @@
 package main
 
 import (
+	"fmt"
 	"os"
-
-	"github.com/01-edu/z01"
-	// "fmt"
+	"strings"
 )
 
 func main() {
-	args := os.Args[1:]
-	str := ""
-	for _, val := range args {
-		str = str + " " + val
-	}
-	indexes := []int{}
-	length := 0
-	hasNext := false
-	for ind, val := range str {
-		if val == 'a' || val == 'e' || val == 'i' || val == 'o' || val == 'u' || val == 'A' || val == 'E' || val == 'I' || val == 'O' || val == 'U' {
-			indexes = append(indexes, ind-1)
-			length++
+	var a1, a2, rev []rune
+	for _, arg := range os.Args[1:] {
+		for _, k := range arg {
+			if strings.ContainsRune("aeiouAEIOU", k) {
+				a1 = append(a1, k)
+			}
 		}
-		hasNext = true
 	}
-	if !hasNext {
-		z01.PrintRune('\n')
-		return
+	for i := len(a1) - 1; i >= 0; i-- {
+		rev = append(rev, a1[i])
 	}
-	str = str[1:]
-	strRune := []rune(str)
-	for i := 0; i < length/2 && length != 0; i++ {
-		strRune[indexes[i]], strRune[indexes[length-i-1]] = strRune[indexes[length-i-1]], strRune[indexes[i]]
+
+	m := 0
+	for i, arg := range os.Args[1:] {
+		for _, j := range arg {
+			if strings.ContainsRune("aeiouAEIOU", j) {
+				a2 = append(a2, rev[m])
+				m++
+			} else {
+				a2 = append(a2, j)
+			}
+		}
+		if i != len(os.Args)-1 {
+			a2 = append(a2, ' ')
+		}
 	}
-	for _, val := range strRune {
-		z01.PrintRune(val)
-	}
-	z01.PrintRune('\n')
+	fmt.Println(string(a2))
 }
