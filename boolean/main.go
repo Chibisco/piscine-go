@@ -16,17 +16,19 @@ func printStr(s string) {
 func even(str int) int {
 	Arg := os.Args[1:]
 	a := 0
-	for i := 0; i <= len(Arg); i++ {
+	b := 0
+	for i := 1; i <= len(Arg); i++ {
 		a = i
+		b = a % 2
 	}
-	return a
+	return b
 }
 
 func isEven(nbr int) bool {
-	if even(nbr) == 1 {
-		return false
-	} else {
+	if even(nbr) == 0 {
 		return true
+	} else {
+		return false
 	}
 }
 
