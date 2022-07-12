@@ -95,7 +95,6 @@ func apply(f func(int, int) int, a int, b int) int {
 }
 
 func Atoi(s string) int {
-
 	runes := []rune(s)
 	LenRune := 0
 	result := 0
