@@ -1,134 +1,132 @@
 package main
 
 import (
-	"fmt"
-	//	"github.com/01-edu/z01"
 	"os"
 )
 
 func main() {
-	arguments := os.Args[1:]
-
-	length := 0
-	for i := range arguments {
-		length = i + 1
-	}
-	if length != 3 {
+	if len(os.Args) < 4 {
 		return
 	}
 
-	sign := 0
-	if arguments[1] == "+" {
-		sign = 0
-	} else if arguments[1] == "-" {
-		sign = 1
-	} else if arguments[1] == "*" {
-		sign = 2
-	} else if arguments[1] == "/" {
-		sign = 3
-	} else if arguments[1] == "%" {
-		sign = 4
-	} else {
-		fmt.Println(0)
+	value, operator, other := TrimAtoi(os.Args[1]), os.Args[2], TrimAtoi(os.Args[3])
+
+	if value == 0 && os.Args[1] != "0" || other == 0 && os.Args[3] != "0" || len(os.Args) < 4 {
 		return
 	}
 
-	for i, s := range arguments[0] {
-		if (s >= '0' && s <= '9') || (i == 0 && s == '-') {
-			continue
+	if isOverflow(value) || isOverflow(other) {
+		return
+	}
+
+	switch operator {
+	case "+":
+		printInt(value + other)
+
+	case "-":
+		printInt(value - other)
+
+	case "*":
+		printInt(value * other)
+
+	case "/":
+		if value == 0 || other == 0 {
+			os.Stdout.WriteString("No division by 0")
 		} else {
-			fmt.Print("0\n")
-			return
+			printInt(value / other)
 		}
-	}
 
-	for i, s := range arguments[2] {
-		if (s >= '0' && s <= '9') || (i == 0 && s == '-') {
-			continue
+	case "%":
+		if value == 0 || other == 0 {
+			os.Stdout.WriteString("No modulo by 0")
 		} else {
-			fmt.Print("0\n")
-			return
+			printInt(value % other)
 		}
-	}
 
-	firstNbr := Atoi(arguments[0])
-	secondNbr := Atoi(arguments[2])
-
-	if secondNbr == 0 && arguments[1] == "/" {
-		fmt.Println("No division by 0")
-		return
-	}
-	if secondNbr == 0 && arguments[1] == "%" {
-		fmt.Println("No Modulo by 0")
+	default:
 		return
 	}
 
-	result := 0
-	arrayOfFunctions := []func(int, int) int{plus, minus, times, div, mod}
-	result = apply(arrayOfFunctions[sign], firstNbr, secondNbr)
-
-	fmt.Println(result)
+	os.Stdout.WriteString("\n")
 }
 
-func plus(a, b int) int {
-	return a + b
+func isOverflow(value int) bool {
+	return value >= 1<<31 || value <= -(1<<31)
 }
 
-func minus(a, b int) int {
-	return a - b
+func printInt(nbr int) {
+	os.Stdout.WriteString(ConvertNbr(nbr))
 }
 
-func times(a, b int) int {
-	return a * b
+func ConvertNbr(nbr int) string {
+	str := ""
+	isNegative := nbr < 0
+
+	for i, remainder := nbr, 0; i != 0; i /= 10 {
+		remainder = i % 10
+		if isNegative {
+			remainder = -remainder
+		}
+		char := rune(remainder) + rune('0')
+		str += string(char)
+	}
+
+	if isNegative {
+		str += "-"
+	} else if nbr == 0 {
+		str = "0"
+	}
+
+	return Reverse(str)
 }
 
-func div(a, b int) int {
-	return a / b
-}
-
-func mod(a, b int) int {
-	return a % b
-}
-
-func apply(f func(int, int) int, a int, b int) int {
-	return f(a, b)
-}
-
-func Atoi(s string) int {
+func Reverse(s string) string {
 	runes := []rune(s)
-	LenRune := 0
-	result := 0
-	for i := range runes {
-		LenRune = i + 1
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
 	}
-	if LenRune == 0 {
+	return string(runes)
+}
+
+func TrimAtoi(s string) int {
+	result := 0
+	str := ""
+	isNegative := false
+	for index, char := range s {
+		if index > 0 && s[index-1] == '-' && len(str) == 0 {
+			isNegative = true
+		}
+
+		if isNumber(char) {
+			str += string(char)
+		}
+	}
+
+	str = Reverse(str)
+
+	for index, char := range str {
+		nb := int(char - '0')
+		result += IterativePower(10, index) * nb
+	}
+
+	if isNegative {
+		result = -result
+	}
+
+	return result
+}
+
+func isNumber(char rune) bool {
+	return char >= '0' && char <= '9'
+}
+
+func IterativePower(nb int, power int) int {
+	res := 1
+	if power < 0 {
 		return 0
 	}
-
-	tens := 1
-	for k := 0; k < LenRune-1; k++ {
-		if runes[k] == '+' || runes[k] == '-' {
-			continue
-		}
-		tens *= 10
+	for i := 1; i <= power; i++ {
+		res = nb * res
 	}
-
-	for i := range runes {
-		if (runes[0] == '-' || runes[0] == '+') && i == 0 {
-			continue
-		}
-		if runes[i] < '0' || runes[i] > '9' {
-			return 0
-		}
-		numb := 0
-		for j := '0'; j < runes[i]; j++ {
-			numb++
-		}
-		result += numb * tens
-		tens /= 10
-	}
-	if runes[0] == '-' {
-		result *= -1
-	}
-	return result
+	return res
 }
